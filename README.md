@@ -3,11 +3,11 @@
 # Human-level-control-through-deep-reinforcement-learning
 A jax/stax implementation of the Nature paper: _Human-level control through deep reinforcement learning_ [[1]](https://www.nature.com/articles/nature14236)
 
-- [x] Experience replay
-- [x] Target network
-- [x] Bellman error clipping
-- [ ] Linear ε annealing
-- [ ] Consecutive no-ops prevention
+- [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
+- [x] Target network [[1]](https://www.nature.com/articles/nature14236)
+- [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
+- [ ] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
+- [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Implement logging
 - [ ] Sweep through all atari games
  

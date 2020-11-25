@@ -1,11 +1,14 @@
 from typing import Tuple, NamedTuple, Callable, Any
 import functools
+
 import jax
 import jax.numpy as jnp
 from jax.experimental.stax import Conv, Dense, Relu, serial, GeneralConv, Flatten
 from jax.experimental.optimizers import rmsprop_momentum
+
 import dm_env
 from bsuite.baselines import base
+
 from .base import module, Optimiser
 from .hparams import HParams
 from .replay_buffer import ReplayBuffer
@@ -14,7 +17,7 @@ from .replay_buffer import ReplayBuffer
 Shape = Tuple[int, ...]
 
 
-class DQN:
+class DQN(base.Agent):
     def __init__(
         self, n_actions: int, in_shape: Shape, hparams: HParams, seed: int = 0
     ):

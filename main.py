@@ -1,11 +1,13 @@
 from absl import app
 from absl import flags
 
-from dqn import DQN, HParams, train, env_from_name
+import gym
+from bsuite.utils.gym_wrapper import DMEnvFromGym
+from dqn import DQN, HParams, train
 
 
 # experiment:
-flags.DEFINE_string("env", "pong", "Environment name")
+flags.DEFINE_string("env", "Pong-v4", "Environment name")
 flags.DEFINE_integer("seed", 0, "Random seed")
 flags.DEFINE_integer("num_episodes", 10, "Number of episodes to train on")
 # hparams:
@@ -80,7 +82,8 @@ FLAGS = flags.FLAGS
 
 
 def main(argv):
-    env = env_from_name(FLAGS.env)
+    gym_env = gym.make(FLAGS.env)
+    env = DMEnvFromGym(gym_env)
     in_shape = (4, 84, 84)
     hparams = HParams(
         batch_size=FLAGS.batch_size,
@@ -100,7 +103,7 @@ def main(argv):
         replay_start=FLAGS.replay_start,
         no_op_max=FLAGS.no_op_max,
     )
-    agent = DQN(env.action_space.n, in_shape, hparams, FLAGS.seed)
+    agent = DQN(env.action_spec().num_values, in_shape, hparams, FLAGS.seed)
     return train(agent, env, FLAGS.num_episodes)
 
 

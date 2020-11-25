@@ -1,7 +1,4 @@
-import pkgutil
-
-__all__ = []
-for loader, module_name, is_pkg in pkgutil.walk_packages(__path__):
-    __all__.append(module_name)
-    _module = loader.find_module(module_name).load_module(module_name)
-    globals()[module_name] = _module
+from agent import DQN
+from base import Module, module
+from hparams import HParams
+from replay_buffer import ReplayBuffer

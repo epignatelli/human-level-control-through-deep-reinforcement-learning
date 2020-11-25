@@ -6,7 +6,7 @@ A jax/stax implementation of the Nature paper: _Human-level control through deep
 - [x] Experience replay
 - [x] Target network
 - [x] Bellman error clipping
-- [ ] Exploration annealing
+- [ ] Linear ε annealing
 - [ ] Consecutive no-ops prevention
 - [ ] Implement logging
 - [ ] Sweep through all atari games

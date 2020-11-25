@@ -12,8 +12,6 @@ We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.u
 - [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)
-- [ ] Implement logging
-- [ ] Test on all atari games [[3]](https://arxiv.org/pdf/1312.5602.pdf)
  
 ## Installation
 To run the algorithm on a GPU, I suggest to [install](https://github.com/google/jax#pip-installation) the gpu version of `jax` [[4]](https://github.com/google/jax). You can then install this repo using [Anaconda python](https://www.anaconda.com/products/individual) and [pip](https://pip.pypa.io/en/stable/installing/).

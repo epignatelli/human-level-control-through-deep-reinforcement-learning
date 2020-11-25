@@ -9,7 +9,7 @@ A jax/stax implementation of the Nature paper: _Human-level control through deep
 - [ ] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Implement logging
-- [ ] Sweep through all atari games
+- [ ] Test on all atari games [[3]](https://arxiv.org/pdf/1312.5602.pdf)
  
 ## Installation
 To run the algorithm on a GPU, I suggest to [install](https://github.com/google/jax#pip-installation) the gpu version of `jax`.
@@ -22,4 +22,5 @@ pip install git+https://github.com/epignatelli/human-level-control-through-deep-
 
 ## References
 [[1]](https://www.nature.com/articles/nature14236) _Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533._    
-[[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf) _Lin, L.-J. Reinforcement learning for robots using neural networks. Technical Report, DTIC Document (1993)_
+[[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf) _Lin, L.-J. Reinforcement learning for robots using neural networks. Technical Report, DTIC Document (1993)_   
+[[3]](https://arxiv.org/pdf/1312.5602.pdf) Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra, D. and Riedmiller, M., 2013. Playing atari with deep reinforcement learning. arXiv preprint arXiv:1312.5602.

@@ -1,4 +1,7 @@
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
+
+
+Shape = Tuple[int, ...]
 
 
 class HParams(NamedTuple):

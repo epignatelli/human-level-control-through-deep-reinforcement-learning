@@ -3,11 +3,12 @@ import functools
 import jax
 import jax.numpy as jnp
 from jax.experimental.stax import Conv, Dense, Relu, serial, GeneralConv, Flatten
-from jax.experimental.optimizers import Optimizer, rmsprop
+from jax.experimental.optimizers import rmsprop_momentum
 import dm_env
 from bsuite.baselines import base
-from .base import module
+from .base import module, Optimiser
 from .hparams import HParams
+from .replay_buffer import ReplayBuffer
 
 
 Shape = Tuple[int, ...]
@@ -99,12 +100,15 @@ class DQN:
         out_shape, self._target_params = self.target_network.init(
             self.rng, (-1, *in_shape)
         )
-        self._optimiser = rmsprop(
-            hparams.learning_rate,
-            hparams.gradient_momentum,
-            hparams.squared_gradient_momentum,
-        )
-        self._optimiser_state = self._optimiser.init_fn(self._online_params)
+        self._optimiser = Optimiser(
+            *rmsprop_momentum(
+                step_size=hparams.learning_rate,
+                gamma=hparams.squared_gradient_momentum,
+                momentum=hparams.gradient_momentum,
+                eps=hparams.min_squared_gradient
+                )
+            )
+        self._optimiser_state = self._optimiser.init(self._online_params)
         return
 
     def select_action(self, timestep: dm_env.TimeStep) -> base.Action:

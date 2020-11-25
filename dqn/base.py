@@ -9,6 +9,12 @@ RNGKey = jnp.ndarray
 Shape = Tuple[int, ...]
 
 
+class Optimiser(NamedTuple):
+    init: Callable[[Params], OptimizerState]
+    update: Callable[[OptimizerState], OptimizerState]
+    params: Callable[[OptimizerState], Params]
+
+
 class Module(NamedTuple):
     init: Callable[[RNGKey, Shape], Tuple[Shape, Params]]
     apply: Callable[[Params, jnp.ndarray], jnp.ndarray]
@@ -21,9 +27,3 @@ def module(module_maker):
         return Module(init, apply)
 
     return fabricate_module
-
-
-class Optimiser(NamedTuple):
-    init: Callable[[Params], OptimizerState]
-    update: Callable[[OptimizerState], OptimizerState]
-    params: Callable[[OptimizerState], Params]

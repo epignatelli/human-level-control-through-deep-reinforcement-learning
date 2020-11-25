@@ -97,20 +97,17 @@ class DQN(base.Agent):
         self.rng = jax.random.PRNGKey(seed)
 
         # private:
-        out_shape, self._online_params = self.online_network.init(
-            self.rng, (-1, *in_shape)
-        )
-        out_shape, self._target_params = self.target_network.init(
-            self.rng, (-1, *in_shape)
-        )
+        self._iteration = 0
+        self._online_params = self.online_network.init(self.rng, (-1, *in_shape))[1]
+        self._target_params = self.target_network.init(self.rng, (-1, *in_shape))[1]
         self._optimiser = Optimiser(
             *rmsprop_momentum(
                 step_size=hparams.learning_rate,
                 gamma=hparams.squared_gradient_momentum,
                 momentum=hparams.gradient_momentum,
-                eps=hparams.min_squared_gradient
-                )
+                eps=hparams.min_squared_gradient,
             )
+        )
         self._optimiser_state = self._optimiser.init(self._online_params)
         return
 
@@ -123,7 +120,7 @@ class DQN(base.Agent):
             return jax.random.randint(self.rng, (1,), 0, self.n_actions)
 
         state = timestep.observation[None, ...]  # batching
-        q_values = self.forward(self.online_params, state)
+        q_values = self.forward(self._online_params, state)
         # e-greedy
         action = jnp.argmax(q_values, axis=-1)
         return action
@@ -135,17 +132,9 @@ class DQN(base.Agent):
         new_timestep: dm_env.TimeStep,
     ) -> None:
         # preprocess observations
-        timestep = dm_env.TimeStep(
-            timestep.step_type,
-            timestep.reward,
-            timestep.discount,
-            self.preprocess(timestep.observation),
-        )
-        new_timestep = dm_env.TimeStep(
-            new_timestep.step_type,
-            new_timestep.reward,
-            new_timestep.discount,
-            self.preprocess(new_timestep.observation),
+        timestep = timestep._replace(observation=self.preprocess(timestep.observation))
+        new_timestep = new_timestep._replace(
+            observation=self.preprocess(new_timestep.observation)
         )
         # add experience to replay buffer
         self.replay_buffer.add(timestep, action, new_timestep)
@@ -167,7 +156,7 @@ class DQN(base.Agent):
             self._online_params,
             self._target_params,
         )
-        self._online_params = self._optimiser.params_fn(self._optimiser_state)
+        self._online_params = self._optimiser.params(self._optimiser_state)
 
         # update the target network parameters every n step
         if self._iteration % self.hparams.target_network_update_frequency == 0:

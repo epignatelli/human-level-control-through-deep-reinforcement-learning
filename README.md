@@ -8,7 +8,8 @@ A jax/stax implementation of the Nature paper: _Human-level control through deep
 - [x] Bellmand error clipping
 - [ ] Exploration annealing
 - [ ] Consecutive no-ops prevention
-
+- [ ] Implement logging
+- [ ] Sweep through all atari games
  
 ## Installation
 To run the algorithm on a GPU, I suggest to [install](https://github.com/google/jax#pip-installation) the gpu version of `jax`.

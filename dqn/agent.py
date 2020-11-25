@@ -38,8 +38,11 @@ class DQN:
         def forward(model, x, r, discount, params_online, params_target):
             q_target = model.apply(params_target, x)
             q_behaviour = model.apply(params_online, x)
-            y = r + discount * jnp.max(q_target, axis=1)
-            return jnp.mean(jnp.power((y.reshape(-1, 1) - q_behaviour), 2))
+            # get the q target
+            y = (r + discount * jnp.max(q_target, axis=1)).reshape(-1, 1)
+            # clip the prediction error in the interval [-1, 1]
+            error = jnp.clip(y - q_behaviour, -1, 1)
+            return jnp.mean(jnp.power((error), 2))
 
         self.forward = jax.jit(forward, static_argnums=0)
 

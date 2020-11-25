@@ -21,5 +21,5 @@ pip install git+https://github.com/epignatelli/human-level-control-through-deep-
 ```
 
 ## References
-[[1]](https://www.nature.com/articles/nature14236) _Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533._
+[[1]](https://www.nature.com/articles/nature14236) _Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533._    
 [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf) _Lin, L.-J. Reinforcement learning for robots using neural networks. Technical Report, DTIC Document (1993)_

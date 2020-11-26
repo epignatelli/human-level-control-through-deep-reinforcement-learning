@@ -150,7 +150,7 @@ class DQN(base.Agent):
         )
 
         # reward clipping
-        reward = -1. if timestep.reward < -1. else 1. if timestep.reward > 1. else reward
+        reward = -1. if timestep.reward < -1. else 1. if timestep.reward > 1. else timestep.reward
         timestep._replace(reward=reward)
 
         # add experience to replay buffer

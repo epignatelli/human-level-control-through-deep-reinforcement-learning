@@ -2,8 +2,7 @@ from absl import app
 from absl import flags
 
 import gym
-from bsuite.utils.gym_wrapper import DMEnvFromGym
-from dqn import DQN, HParams, train
+from dqn import DQN, HParams, AtariEnv, train
 
 
 # experiment:
@@ -82,8 +81,7 @@ FLAGS = flags.FLAGS
 
 
 def main(argv):
-    gym_env = gym.make(FLAGS.env)
-    env = DMEnvFromGym(gym_env)
+    env = AtariEnv(FLAGS.env, FLAGS.action_repeat)
     in_shape = (4, 84, 84)
     hparams = HParams(
         batch_size=FLAGS.batch_size,

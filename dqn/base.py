@@ -25,5 +25,4 @@ def module(module_maker):
     def fabricate_module(*args, **kwargs):
         init, apply = module_maker(*args, **kwargs)
         return Module(init, apply)
-
     return fabricate_module

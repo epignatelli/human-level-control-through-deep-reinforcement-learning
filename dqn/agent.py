@@ -111,6 +111,16 @@ class DQN(base.Agent):
         self._optimiser_state = self._optimiser.init(self._online_params)
         return
 
+    def clip_reward(self, timestep, low=-1., high=1.):
+        reward = (
+            low
+            if timestep.reward < low
+            else high
+            if timestep.reward > high
+            else timestep.reward
+        )
+        return timestep._replace(reward=reward)
+
     def anneal_epsilon(self):
         x0, y0 = (self.hparams.replay_start, self.hparams.initial_exploration)
         x1, y1 = (
@@ -148,14 +158,7 @@ class DQN(base.Agent):
         )
 
         # reward clipping
-        reward = (
-            -1.0
-            if timestep.reward < -1.0
-            else 1.0
-            if timestep.reward > 1.0
-            else timestep.reward
-        )
-        timestep = timestep._replace(reward=reward)
+        timestep = self.clip_reward(timestep)
 
         # add experience to replay buffer
         self.replay_buffer.add(timestep, action, new_timestep)

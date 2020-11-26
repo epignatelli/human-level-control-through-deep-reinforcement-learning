@@ -26,7 +26,7 @@ class DQN(base.Agent):
         @module
         def network(
             n_actions: int,
-            input_format: Tuple[str, str, str] = ("NCWH", "IWHO", "NCWH")
+            input_format: Tuple[str, str, str] = ("NCWH", "IWHO", "NCWH"),
         ) -> Module:
             return serial(
                 GeneralConv(input_format, 32, (8, 8), (4, 4), "VALID"),
@@ -45,16 +45,16 @@ class DQN(base.Agent):
 
         def forward(
             model: Module,
-            x: jnp.ndarray,
-            r: jnp.ndarray,
+            observation: jnp.ndarray,
+            reward: jnp.ndarray,
             discount: jnp.ndarray,
             params_online: Params,
-            params_target: Params
+            params_target: Params,
         ) -> jnp.ndarray:
-            q_target = model.apply(params_target, x)
-            q_behaviour = model.apply(params_online, x)
+            q_target = model.apply(params_target, observation)
+            q_behaviour = model.apply(params_online, observation)
             # get the q target
-            y = (r + discount * jnp.max(q_target, axis=1)).reshape(-1, 1)
+            y = (reward + discount * jnp.max(q_target, axis=1)).reshape(-1, 1)
             # clip the prediction error in the interval [-1, 1]
             error = jnp.clip(y - q_behaviour, -1, 1)
             return jnp.mean(jnp.power((error), 2))
@@ -63,14 +63,14 @@ class DQN(base.Agent):
 
         def backward(
             model: Module,
-            x: jnp.ndarray,
-            r: jnp.ndarray,
+            observation: jnp.ndarray,
+            reward: jnp.ndarray,
             discount: jnp.ndarray,
             params_online: Params,
-            params_target: Params
+            params_target: Params,
         ) -> Tuple[jnp.ndarray, jnp.ndarray]:
             return jax.value_and_grad(forward, argnums=4)(
-                model, x, r, discount, params_online, params_target
+                model, observation, reward, discount, params_online, params_target
             )
 
         self.backward = jax.jit(backward, static_argnums=0)
@@ -80,14 +80,14 @@ class DQN(base.Agent):
             optimiser: Optimiser,
             iteration: int,
             optimiser_state: OptimizerState,
-            x: jnp.ndarray,
-            r: jnp.ndarray,
+            observation: jnp.ndarray,
+            reward: jnp.ndarray,
             discount: jnp.ndarray,
             params_online: Params,
             params_target: Params,
         ):
             loss, gradients = backward(
-                model, x, r, discount, params_online, params_target
+                model, observation, reward, discount, params_online, params_target
             )
             return loss, optimiser.update_fn(iteration, gradients, optimiser_state)
 
@@ -96,17 +96,12 @@ class DQN(base.Agent):
         def preprocess(x):
             # depthwise max pooling to remove flickering
             out = jax.lax.reduce_window(
-                x,
-                -jnp.inf,
-                jax.lax.max,
-                (2, 1, 1, 1),
-                (1, 1, 1, 1),
-                "SAME"
+                x, -jnp.inf, jax.lax.max, (2, 1, 1, 1), (1, 1, 1, 1), "SAME"
             )
             # get luminance
             luminance_mask = jnp.array([0.2126, 0.7152, 0.0722]).reshape(1, 1, 1, 3)
             y = jnp.sum(x * luminance_mask, axis=-1).squeeze()
-            # resize, batch_x is (batch_size, n_frames, 210, 160)
+            # resize, x is (n_frames, 210, 160)
             target_shape = (*x.shape[:-3], 84, 84)
             s = jax.image.resize(y, target_shape, method="bilinear")
             return s
@@ -138,7 +133,7 @@ class DQN(base.Agent):
         self._optimiser_state = self._optimiser.init(self._online_params)
         return
 
-    def clip_reward(self, timestep, low=-1., high=1.):
+    def clip_reward(self, timestep, low=-1.0, high=1.0):
         reward = (
             low
             if timestep.reward < low

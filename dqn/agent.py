@@ -111,6 +111,16 @@ class DQN(base.Agent):
         self._optimiser_state = self._optimiser.init(self._online_params)
         return
 
+    def anneal_epsilon(self):
+        x0, y0 = (self.hparams.replay_start, self.hparams.initial_exploration)
+        x1, y1 = (
+            self.hparams.replay_start + self.hparams.final_exploration_frame,
+            self.hparams.final_exploration,
+        )
+        x = self._iteration
+        y = ((y1 - y0) * (x - x0) / (x1 - x0)) + y0
+        return y
+
     def select_action(self, timestep: dm_env.TimeStep) -> base.Action:
         """Policy function: maps the current observation/state to an action
         following an epsilon-greedy policy
@@ -141,6 +151,8 @@ class DQN(base.Agent):
         # if replay buffer is smaller than the minimum size, there is nothing else to do
         if len(self.replay_buffer) < self.hparams.replay_start:
             return
+        # the exploration parameter is linearly interpolated to the end value
+        self.epsilon = self.anneal_epsilon()
         # update the online parameters only every n interations
         if self._iteration % self.hparams.update_frequency:
             return

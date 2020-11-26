@@ -9,6 +9,7 @@ We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.u
 
 - [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
 - [x] Target network [[1]](https://www.nature.com/articles/nature14236)
+- [x] Reward clipping [[1]](https://www.nature.com/articles/nature14236)
 - [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
 - [x] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)

@@ -1,6 +1,8 @@
-import bsuite
+import gym
 import dm_env
-from dqn.agent import DQN
+import bsuite
+from bsuite.utils.gym_wrapper import DMEnvFromGym
+from dqn import DQN, HParams
 
 
 def test_dqn():
@@ -16,3 +18,25 @@ def test_dqn():
     new_timestep = dm_env.TimeStep(dm_env.StepType.MID, 1.0, agent.hparams.discount, y)
     agent.update(timestep, action, new_timestep)
     return agent
+
+
+def test_epsilon_annealing():
+    gym_env = gym.make("Pong-v4")
+    env = DMEnvFromGym(gym_env)
+    in_shape = (4, 84, 84)
+    hparams = HParams(
+        replay_start=10,
+        final_exploration_frame=20,
+        initial_exploration=10.,
+        final_exploration=20.
+    )
+    agent = DQN(env.action_spec().num_values, in_shape, hparams, 0)
+
+    agent._iteration = 10
+    assert round(agent.anneal_epsilon(), 1) == 10.0
+
+    agent._iteration = 20
+    assert round(agent.anneal_epsilon(), 1) == 20.0
+
+    agent._iteration = 15
+    assert round(agent.anneal_epsilon(), 1) == 15.0

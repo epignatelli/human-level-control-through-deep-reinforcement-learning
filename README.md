@@ -11,7 +11,7 @@ We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.u
 - [x] Target network [[1]](https://www.nature.com/articles/nature14236)
 - [x] Reward clipping [[1]](https://www.nature.com/articles/nature14236)
 - [x] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
-- [ ] Frame skipping [[5]](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.261.274&rep=rep1&type=pdf)
+- [x] Frame skipping [[5]](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.261.274&rep=rep1&type=pdf)
 - [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)
 

@@ -7,6 +7,7 @@ The agent at `qdn.agent.py` implements the `bsuite.baseline.base.Agent` interfac
 The `dqn//train.py` interfaces with a `dm_env.Environment`.
 We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.utils.gym_wrapper.DMEnvFromGym` adapter.
 
+Implementation status of some of the techniques used in the paper:   
 - [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
 - [x] Target network [[1]](https://www.nature.com/articles/nature14236)
 - [x] Reward clipping [[1]](https://www.nature.com/articles/nature14236)

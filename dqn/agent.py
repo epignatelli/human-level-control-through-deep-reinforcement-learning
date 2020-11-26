@@ -4,17 +4,18 @@ import functools
 import jax
 import jax.numpy as jnp
 from jax.experimental.stax import Conv, Dense, Relu, serial, GeneralConv, Flatten
-from jax.experimental.optimizers import rmsprop_momentum
+from jax.experimental.optimizers import OptimizerState, rmsprop_momentum
 
 import dm_env
 from bsuite.baselines import base
 
-from .base import module, Optimiser
+from .base import Module, Optimiser, module
 from .hparams import HParams
 from .replay_buffer import ReplayBuffer
 
 
 Shape = Tuple[int, ...]
+Params = Any
 
 
 class DQN(base.Agent):
@@ -23,7 +24,10 @@ class DQN(base.Agent):
     ):
         # differentiable:
         @module
-        def network(n_actions, input_format=("NCWH", "IWHO", "NCWH")):
+        def network(
+            n_actions: int,
+            input_format: Tuple[str, str, str] = ("NCWH", "IWHO", "NCWH")
+        ) -> Module:
             return serial(
                 GeneralConv(input_format, 32, (8, 8), (4, 4), "VALID"),
                 Relu,
@@ -39,7 +43,14 @@ class DQN(base.Agent):
 
         self.network = network
 
-        def forward(model, x, r, discount, params_online, params_target):
+        def forward(
+            model: Module,
+            x: jnp.ndarray,
+            r: jnp.ndarray,
+            discount: jnp.ndarray,
+            params_online: Params,
+            params_target: Params
+        ) -> jnp.ndarray:
             q_target = model.apply(params_target, x)
             q_behaviour = model.apply(params_online, x)
             # get the q target
@@ -50,7 +61,14 @@ class DQN(base.Agent):
 
         self.forward = jax.jit(forward, static_argnums=0)
 
-        def backward(model, x, r, discount, params_online, params_target):
+        def backward(
+            model: Module,
+            x: jnp.ndarray,
+            r: jnp.ndarray,
+            discount: jnp.ndarray,
+            params_online: Params,
+            params_target: Params
+        ) -> Tuple[jnp.ndarray, jnp.ndarray]:
             return jax.value_and_grad(forward, argnums=4)(
                 model, x, r, discount, params_online, params_target
             )
@@ -58,15 +76,15 @@ class DQN(base.Agent):
         self.backward = jax.jit(backward, static_argnums=0)
 
         def sgd_step(
-            model,
-            optimiser,
-            iteration,
-            optimiser_state,
-            x,
-            r,
-            discount,
-            params_online,
-            params_target,
+            model: Module,
+            optimiser: Optimiser,
+            iteration: int,
+            optimiser_state: OptimizerState,
+            x: jnp.ndarray,
+            r: jnp.ndarray,
+            discount: jnp.ndarray,
+            params_online: Params,
+            params_target: Params,
         ):
             loss, gradients = backward(
                 model, x, r, discount, params_online, params_target

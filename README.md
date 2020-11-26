@@ -10,8 +10,9 @@ We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.u
 - [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
 - [x] Target network [[1]](https://www.nature.com/articles/nature14236)
 - [x] Reward clipping [[1]](https://www.nature.com/articles/nature14236)
-- [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
 - [x] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
+- [ ] Frame skipping [[5]](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.261.274&rep=rep1&type=pdf)
+- [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)
 
 ## Installation
@@ -27,3 +28,4 @@ pip install git+https://github.com/epignatelli/human-level-control-through-deep-
 [[2] _Lin, L.-J. Reinforcement learning for robots using neural networks. Technical Report, DTIC Document (1993)_](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
 [[3] Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra, D. and Riedmiller, M., 2013. Playing atari with deep reinforcement learning. arXiv preprint arXiv:1312.5602.](https://arxiv.org/pdf/1312.5602.pdf)
 [[4] _Bradbury, J., Frostig, R., Hawkins, P., Johnson, M.J., Leary, C., Maclaurin, D., Necula, G., Paszke, A., VanderPlas, J., Wanderman-Milne, S., Zhang, Q. JAX: composable transformations of Python+NumPy programs. 2018_](https://github.com/google/jax)
+

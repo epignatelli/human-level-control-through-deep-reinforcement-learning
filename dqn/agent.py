@@ -76,6 +76,15 @@ class DQN(base.Agent):
         self.sgd_step = jax.jit(sgd_step, static_argnums=(0, 1))
 
         def preprocess(x):
+            # depthwise max pooling to remove flickering
+            out = jax.lax.reduce_window(
+                x,
+                -jnp.inf,
+                jax.lax.max,
+                (2, 1, 1, 1),
+                (1, 1, 1, 1),
+                "SAME"
+            )
             # get luminance
             luminance_mask = jnp.array([0.2126, 0.7152, 0.0722]).reshape(1, 1, 1, 3)
             y = jnp.sum(x * luminance_mask, axis=-1).squeeze()

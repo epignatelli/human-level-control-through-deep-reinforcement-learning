@@ -142,16 +142,20 @@ class DQN(base.Agent):
         new_timestep: dm_env.TimeStep,
     ) -> None:
         # preprocess observations
-        timestep = timestep._replace(
-            observation=self.preprocess(timestep.observation)
-        )
+        timestep = timestep._replace(observation=self.preprocess(timestep.observation))
         new_timestep = new_timestep._replace(
             observation=self.preprocess(new_timestep.observation)
         )
 
         # reward clipping
-        reward = -1. if timestep.reward < -1. else 1. if timestep.reward > 1. else timestep.reward
-        timestep._replace(reward=reward)
+        reward = (
+            -1.0
+            if timestep.reward < -1.0
+            else 1.0
+            if timestep.reward > 1.0
+            else timestep.reward
+        )
+        timestep = timestep._replace(reward=reward)
 
         # add experience to replay buffer
         self.replay_buffer.add(timestep, action, new_timestep)

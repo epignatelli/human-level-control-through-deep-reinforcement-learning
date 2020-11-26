@@ -7,7 +7,7 @@ The agent at `qdn.agent.py` implements the `bsuite.baseline.base.Agent` interfac
 The `dqn//train.py` interfaces with a `dm_env.Environment`.
 We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.utils.gym_wrapper.DMEnvFromGym` adapter.
 
-Implementation status of some of the techniques used in the paper:   
+Implementation status of some of the techniques used in the paper:
 - [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
 - [x] Target network [[1]](https://www.nature.com/articles/nature14236)
 - [x] Reward clipping [[1]](https://www.nature.com/articles/nature14236)
@@ -25,8 +25,16 @@ pip install git+https://github.com/epignatelli/human-level-control-through-deep-
 ```
 
 ## References
-[[1] _Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533._](https://www.nature.com/articles/nature14236)
-[[2] _Lin, L.-J. Reinforcement learning for robots using neural networks. Technical Report, DTIC Document (1993)_](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
-[[3] Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra, D. and Riedmiller, M., 2013. Playing atari with deep reinforcement learning. arXiv preprint arXiv:1312.5602.](https://arxiv.org/pdf/1312.5602.pdf)
-[[4] _Bradbury, J., Frostig, R., Hawkins, P., Johnson, M.J., Leary, C., Maclaurin, D., Necula, G., Paszke, A., VanderPlas, J., Wanderman-Milne, S., Zhang, Q. JAX: composable transformations of Python+NumPy programs. 2018_](https://github.com/google/jax)
+[1] [_Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A.A., Veness, J., Bellemare, M.G., Graves, A., Riedmiller, M., Fidjeland, A.K., Ostrovski, G. and Petersen, S., 2015. Human-level control through deep reinforcement learning. nature, 518(7540), pp.529-533._](https://www.nature.com/articles/nature14236)
 
+
+[2] [_Lin, L.-J. Reinforcement learning for robots using neural networks. Technical Report, DTIC Document (1993)_](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
+
+
+[3] [Mnih, V., Kavukcuoglu, K., Silver, D., Graves, A., Antonoglou, I., Wierstra, D. and Riedmiller, M., 2013. Playing atari with deep reinforcement learning. arXiv preprint arXiv:1312.5602.](https://arxiv.org/pdf/1312.5602.pdf)
+
+
+[4] [_Bradbury, J., Frostig, R., Hawkins, P., Johnson, M.J., Leary, C., Maclaurin, D., Necula, G., Paszke, A., VanderPlas, J., Wanderman-Milne, S., Zhang, Q. JAX: composable transformations of Python+NumPy programs. 2018_](https://github.com/google/jax)
+
+
+[5] [_Bellemare, M. G., Veness, J. & Bowling, M. Investigating contingency awareness using Atari 2600 games. Proc. Conf. AAAI. Artif. Intell. 864–871 (2012)_](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.261.274&rep=rep1&type=pdf)

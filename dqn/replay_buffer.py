@@ -1,43 +1,42 @@
+from typing import NamedTuple, Union
+from collections import deque
+import functools
 import logging
 import numpy as onp
 import jax
+
+
+class Transition(NamedTuple):
+    s: onp.ndarray
+    a: onp.ndarray
+    r: onp.ndarray
+    ns: onp.ndarray
 
 
 class ReplayBuffer:
     def __init__(self, observation_shape, capacity, seed=0):
         # public:
         self.capacity = capacity
-        self.observation_shape = observation_shape
-        onp.random.seed(seed)
 
         # private:
-        self._s0 = onp.empty((capacity, *observation_shape), dtype=onp.float32)
-        self._a = onp.empty((capacity,), dtype=onp.int32)
-        self._r = onp.empty((capacity,), dtype=onp.float32)
-        self._s1 = onp.empty((capacity, *observation_shape), dtype=onp.float32)
-        self._current_idx = 0
-        self._full = False
+        self._data = deque(maxlen=capacity)
+        onp.random.seed(seed)
 
     def __len__(self):
-        return self.capacity if self._full else self._current_idx
+        return len(self._data)
 
     def __getitem__(self, idx):
-        s0 = self._s0[idx]
-        a = self._a[idx]
-        r = self._r[idx]
-        s1 = self._s1[idx]
-        return (s0, a, r, s1)
+        return self._data[idx]
 
     def add(self, timestep, action, new_timestep):
-        self._s0[self._current_idx] = timestep.observation
-        self._a[self._current_idx] = action
-        self._r[self._current_idx] = timestep.reward
-        self._s1[self._current_idx] = new_timestep.observation
-        self._current_idx += 1
-        # if buffer is full, start replacing older transitions
-        if self._current_idx >= self.capacity:
-            self._current_idx = 0
-            self._full = True
+        self._data.append(
+            Transition(
+                timestep.observation,
+                action,
+                timestep.reward,
+                new_timestep.observations
+            )
+        )
         return
 
     def sample(self, n):
@@ -50,8 +49,15 @@ class ReplayBuffer:
             indices = range(len(self))
         else:
             indices = onp.random.randint(0, high, size=n)
-        s0 = onp.stack([self._s0[i] for i in indices])
-        a = onp.stack([self._a[i] for i in indices])
-        r = onp.stack([self._r[i] for i in indices])
-        s1 = onp.stack([self._s1[i] for i in indices])
-        return (s0, a, r, s1)
+        s, a, r, ns = [], [], [], []
+        batch = [[], [], [], []]
+        for idx in indices:
+            _s, _a, _r, _ns = self._data[idx]
+            traj = self._data[idx]
+            for i, item in enumerate(traj):
+                batch[i].append(item)
+        s = onp.stack(s)
+        a = onp.stack(a)
+        r = onp.stack(r)
+        ns = onp.stack(ns)
+        return (s, a, r, ns)

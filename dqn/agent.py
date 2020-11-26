@@ -172,7 +172,7 @@ class DQN(base.Agent):
         timestep: dm_env.TimeStep,
         action: base.Action,
         new_timestep: dm_env.TimeStep,
-    ) -> None:
+    ) -> float:
         # preprocess observations
         timestep = timestep._replace(observation=self.preprocess(timestep.observation))
         new_timestep = new_timestep._replace(
@@ -184,16 +184,19 @@ class DQN(base.Agent):
 
         # add experience to replay buffer
         self.replay_buffer.add(timestep, action, new_timestep)
+
         # if replay buffer is smaller than the minimum size, there is nothing else to do
         if len(self.replay_buffer) < self.hparams.replay_start:
+            return
+
+        # update the online parameters only every n interations
+        if self._iteration % self.hparams.update_frequency:
             return
 
         # the exploration parameter is linearly interpolated to the end value
         self.epsilon = self.anneal_epsilon()
 
-        # update the online parameters only every n interations
-        if self._iteration % self.hparams.update_frequency:
-            return
+        # update the online parameters
         transition_batch = self.replay_buffer.sample(self.hparams.batch_size)
         loss, self._optimiser_state = self.sgd_step(
             self.online_network,
@@ -211,4 +214,4 @@ class DQN(base.Agent):
         # update the target network parameters every n step
         if self._iteration % self.hparams.target_network_update_frequency == 0:
             self._target_params = self._online_params
-        return
+        return loss

@@ -2,13 +2,14 @@ from absl import app
 from absl import flags
 
 import gym
-from dqn import DQN, HParams, AtariEnv, run
+from dqn import DQN, HParams, AtariEnv, ATARI_ENV_LIST, run
 
 
 # experiment:
 flags.DEFINE_string("env", "Pong-v4", "Environment name")
 flags.DEFINE_integer("seed", 0, "Random seed")
 flags.DEFINE_integer("num_episodes", 10, "Number of episodes to train on")
+flags.DEFINE_integer("num_eval_episodes", 10, "Number of episodes to train on")
 # hparams:
 flags.DEFINE_integer(
     "batch_size",
@@ -81,8 +82,13 @@ FLAGS = flags.FLAGS
 
 
 def main(argv):
-    env = AtariEnv(FLAGS.env, FLAGS.action_repeat)
-    in_shape = (4, 84, 84)
+    # sweep throuhg all atari or learn to play one game
+    if FLAGS.env.upper() == "SWEEP":
+        env_names = ATARI_ENV_LIST
+    else:
+        env_names = [FLAGS.env]
+
+    # define hparams
     hparams = HParams(
         batch_size=FLAGS.batch_size,
         replay_memory_size=FLAGS.replay_memory_size,
@@ -101,8 +107,17 @@ def main(argv):
         replay_start=FLAGS.replay_start,
         no_op_max=FLAGS.no_op_max,
     )
-    agent = DQN(env.action_spec().num_values, in_shape, hparams, FLAGS.seed)
-    agent = run(agent, env, FLAGS.num_episodes)
+
+    # loop through each game
+    for env_name in env_names:
+        env = AtariEnv(env_names, FLAGS.action_repeat)
+        in_shape = (4, 84, 84)
+        agent = DQN(env.action_spec().num_values, in_shape, hparams, FLAGS.seed)
+
+        # train
+        agent = run(agent, env, FLAGS.num_episodes)
+        # evaluate
+        agent = run(agent, env, FLAGS.num_eval_episodes, eval_mode=True)
 
 
 if __name__ == "__main__":

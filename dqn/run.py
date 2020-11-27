@@ -34,6 +34,7 @@ def run(
             if not eval_mode:
                 loss = agent.update(timestep, action, new_timestep)
                 wandb.log({"Bellman MSE": loss})
+                wandb.log({"Iteration", agent.iteration})
             # prepare next
             timestep = new_timestep
     return agent

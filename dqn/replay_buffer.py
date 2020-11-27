@@ -47,12 +47,13 @@ class ReplayBuffer:
         else:
             indices = onp.random.randint(0, high, size=n)
         s, a, r, ns = [], [], [], []
-        batch = [[], [], [], []]
         for idx in indices:
             _s, _a, _r, _ns = self._data[idx]
             traj = self._data[idx]
-            for i, item in enumerate(traj):
-                batch[i].append(item)
+            s.append(_s)
+            a.append(_a)
+            r.append(_r)
+            ns.append(_ns)
         s = onp.stack(s)
         a = onp.stack(a)
         r = onp.stack(r)

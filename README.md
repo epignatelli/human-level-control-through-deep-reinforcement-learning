@@ -5,7 +5,7 @@ A jax/stax implementation of the Nature paper: _Human-level control through deep
 
 The agent at `qdn.agent.py` implements the `bsuite.baseline.base.Agent` interface.
 The `dqn//train.py` interfaces with a `dm_env.Environment`.
-We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.utils.gym_wrapper.DMEnvFromGym` adapter.
+We wrap the [gym-atari](https://github.com/openai/gym) suite using the `bsuite.utils.gym_wrapper.DMEnvFromGym` adapter into a `dqn.AtariEnv`.
 
 Implementation status of some of the techniques used in the paper:
 - [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)

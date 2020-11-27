@@ -15,12 +15,13 @@ class AtariEnv(DMEnvFromGym):
         self._base.__init__(gym.make(env_name))
         self._state_history = deque(maxlen=action_repeat)
 
-    def reset(self):
-        timestep = self._base.reset()
-        for i in range(self.action_repeat - 1):
-            self._state_history.append(onp.zeros_like(timestep.observation))
-        self._state_history.append(timestep.observation)
-        return timestep._replace(observation=onp.stack(self._state_history))
+    # def reset(self):
+    #     timestep = self._base.reset()
+    #     self._state_history.clear()
+    #     for i in range(self.action_repeat - 1):
+    #         self._state_history.append(onp.zeros_like(timestep.observation))
+    #     self._state_history.append(timestep.observation)
+    #     return timestep._replace(observation=onp.stack(self._state_history))
 
     def step(self, action):
         # the agent selects an action only every k frames

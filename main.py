@@ -110,7 +110,7 @@ def main(argv):
 
     # loop through each game
     for env_name in env_names:
-        env = AtariEnv(env_names, FLAGS.action_repeat)
+        env = AtariEnv(env_name, FLAGS.action_repeat)
         in_shape = (4, 84, 84)
         agent = DQN(env.action_spec().num_values, in_shape, hparams, FLAGS.seed)
 

@@ -20,7 +20,10 @@ def run(
         )
     )
     for episode in range(num_episodes):
-        logging.info("Starting episode number {}/{}".format(episode, num_episodes - 1))
+        print(
+            "Starting episode number {}/{}\t\t\t".format(episode, num_episodes - 1),
+            end="\r",
+        )
         wandb.log({"Episode": episode})
         # initialise environment
         timestep = env.reset()
@@ -33,7 +36,7 @@ def run(
             # update
             if not eval_mode:
                 loss = agent.update(timestep, action, new_timestep)
-                wandb.log({"Bellman MSE": loss})
+                wandb.log({"Bellman MSE": float(loss)})
                 wandb.log({"Iteration": agent.iteration})
             # prepare next
             timestep = new_timestep

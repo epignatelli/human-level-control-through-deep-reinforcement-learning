@@ -29,16 +29,16 @@ def test_epsilon_annealing():
     hparams = HParams(
         replay_start=10,
         final_exploration_frame=20,
-        initial_exploration=10.,
-        final_exploration=20.
+        initial_exploration=10.0,
+        final_exploration=20.0,
     )
     agent = DQN(env.action_spec().num_values, in_shape, hparams, 0)
 
-    agent._iteration = 10
+    agent.iteration = 10
     assert round(agent.anneal_epsilon(), 1) == 10.0
 
-    agent._iteration = 20
+    agent.iteration = 20
     assert round(agent.anneal_epsilon(), 1) == 20.0
 
-    agent._iteration = 15
+    agent.iteration = 15
     assert round(agent.anneal_epsilon(), 1) == 15.0

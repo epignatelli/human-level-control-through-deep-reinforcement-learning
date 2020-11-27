@@ -135,9 +135,9 @@ class DQN(base.Agent):
         self.online_network = network(n_actions)
         self.target_network = network(n_actions)
         self.rng = jax.random.PRNGKey(seed)
+        self.iteration = 0
 
         # private:
-        self._iteration = 0
         self._online_params = self.online_network.init(self.rng, (-1, *in_shape))[1]
         self._target_params = self.target_network.init(self.rng, (-1, *in_shape))[1]
         self._optimiser = Optimiser(
@@ -169,7 +169,7 @@ class DQN(base.Agent):
             self.hparams.replay_start + self.hparams.final_exploration_frame,
             self.hparams.final_exploration,
         )
-        x = self._iteration
+        x = self.iteration
         y = ((y1 - y0) * (x - x0) / (x1 - x0)) + y0
         return y
 
@@ -214,7 +214,7 @@ class DQN(base.Agent):
             return
 
         # update the online parameters only every n interations
-        if self._iteration % self.hparams.update_frequency:
+        if self.iteration % self.hparams.update_frequency:
             return
 
         # the exploration parameter is linearly interpolated to the end value
@@ -225,7 +225,7 @@ class DQN(base.Agent):
         loss, self._optimiser_state = self.sgd_step(
             self.online_network,
             self._optimiser,
-            self._iteration,
+            self.iteration,
             self._optimiser_state,
             transition_batch[0],  # observation
             transition_batch[2],  # reward
@@ -236,6 +236,6 @@ class DQN(base.Agent):
         self._online_params = self._optimiser.params(self._optimiser_state)
 
         # update the target network parameters every n step
-        if self._iteration % self.hparams.target_network_update_frequency == 0:
+        if self.iteration % self.hparams.target_network_update_frequency == 0:
             self._target_params = self._online_params
         return loss

@@ -107,7 +107,7 @@ class DQN(base.Agent):
             loss, gradients = backward(
                 model, observation, reward, discount, params_online, params_target
             )
-            return loss, optimiser.update_fn(iteration, gradients, optimiser_state)
+            return loss, optimiser.update(iteration, gradients, optimiser_state)
 
         self.sgd_step = jax.jit(sgd_step, static_argnums=(0, 1))
 

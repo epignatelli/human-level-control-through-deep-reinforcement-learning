@@ -193,6 +193,9 @@ class DQN(base.Agent):
         action: base.Action,
         new_timestep: dm_env.TimeStep,
     ) -> float:
+        # increment iteration
+        self.iteration += 1
+
         # env has called reset(), do nothing
         if timestep.first():
             return

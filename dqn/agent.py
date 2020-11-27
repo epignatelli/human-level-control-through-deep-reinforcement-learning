@@ -173,6 +173,10 @@ class DQN(base.Agent):
         action: base.Action,
         new_timestep: dm_env.TimeStep,
     ) -> float:
+        # env has called reset(), do nothing
+        if timestep.first():
+            return
+
         # preprocess observations
         timestep = timestep._replace(observation=self.preprocess(timestep.observation))
         new_timestep = new_timestep._replace(

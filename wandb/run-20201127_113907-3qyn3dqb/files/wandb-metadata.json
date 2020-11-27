@@ -1,0 +1,25 @@
+{
+    "os": "Linux-5.4.0-53-generic-x86_64-with-debian-buster-sid",
+    "python": "3.7.9",
+    "heartbeatAt": "2020-11-27T11:39:11.788821",
+    "startedAt": "2020-11-27T11:39:07.347697",
+    "docker": null,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--replay_memory_size",
+        "100"
+    ],
+    "state": "running",
+    "codePath": "main.py",
+    "program": "/home/epignatelli/repos/human-level-control-through-deep-reinforcement-learning/main.py",
+    "git": {
+        "remote": "https://github.com/epignatelli/human-level-control-through-deep-reinforcement-learning.git",
+        "commit": "5f3e131950201c90fd7085a08f7530a44a25510d"
+    },
+    "email": "edu.pignatelli@gmail.com",
+    "root": "/home/epignatelli/repos/human-level-control-through-deep-reinforcement-learning",
+    "host": "eduardo-ubuntu",
+    "username": "epignatelli",
+    "executable": "/home/epignatelli/anaconda3/envs/dqn/bin/python"
+}

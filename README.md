@@ -11,7 +11,7 @@ Implementation status of some of the techniques used in the paper:
 - [x] Experience replay [[2]](http://isl.anthropomatik.kit.edu/pdf/Lin1993.pdf)
 - [x] Target network [[1]](https://www.nature.com/articles/nature14236)
 - [x] Reward clipping [[1]](https://www.nature.com/articles/nature14236)
-- [x] Linear ε annealing [[1]](https://www.nature.com/articles/nature14236)
+- [x] Linear ε annealing [[6]](http://incompleteideas.net/book/RLbook2020.pdf)
 - [x] Frame skipping [[5]](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.261.274&rep=rep1&type=pdf)
 - [x] Bellman error clipping [[1]](https://www.nature.com/articles/nature14236)
 - [ ] Consecutive no-ops prevention [[1]](https://www.nature.com/articles/nature14236)
@@ -38,3 +38,5 @@ pip install git+https://github.com/epignatelli/human-level-control-through-deep-
 
 
 [5] [_Bellemare, M. G., Veness, J. & Bowling, M. Investigating contingency awareness using Atari 2600 games. Proc. Conf. AAAI. Artif. Intell. 864–871 (2012)_](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.261.274&rep=rep1&type=pdf)
+
+[6] [_Sutton, R.S. and Barto, A.G., 1998. Introduction to reinforcement learning (Vol. 135). Cambridge: MIT press._](http://incompleteideas.net/book/RLbook2020.pdf)

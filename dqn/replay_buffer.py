@@ -31,10 +31,7 @@ class ReplayBuffer:
     def add(self, timestep, action, new_timestep):
         self._data.append(
             Transition(
-                timestep.observation,
-                action,
-                timestep.reward,
-                new_timestep.observations
+                timestep.observation, action, timestep.reward, new_timestep.observations
             )
         )
         return

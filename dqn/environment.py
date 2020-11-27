@@ -76,7 +76,7 @@ ATARI_ENV_LIST = list(
             "Tennis",
             "TimePilot",
             "Tutankham",
-            # "UpAndDown",  # broken
+            "UpNDown",
             "Venture",
             "VideoPinball",
             "WizardOfWor",

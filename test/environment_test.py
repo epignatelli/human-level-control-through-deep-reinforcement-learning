@@ -10,7 +10,3 @@ def test_atarienv():
         assert len(timestep.observation) == 4
         logging.debug(env_name + " successfully initialised")
         env.close()
-
-
-
-test_atarienv()

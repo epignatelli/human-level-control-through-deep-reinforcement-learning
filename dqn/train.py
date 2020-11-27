@@ -4,11 +4,7 @@ from bsuite.baselines import base
 from .agent import DQN
 
 
-def train(
-    agent: base.Agent,
-    env: dm_env.Environment,
-    num_episodes: int
-) -> base.Agent:
+def train(agent: base.Agent, env: dm_env.Environment, num_episodes: int) -> base.Agent:
     for episode in range(num_episodes):
         timestep = env.reset()
         while not timestep.last():

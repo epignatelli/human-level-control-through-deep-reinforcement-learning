@@ -102,7 +102,7 @@ def main(argv):
         no_op_max=FLAGS.no_op_max,
     )
     agent = DQN(env.action_spec().num_values, in_shape, hparams, FLAGS.seed)
-    return train(agent, env, FLAGS.num_episodes)
+    run(agent, env, FLAGS.num_episodes)
 
 
 if __name__ == "__main__":

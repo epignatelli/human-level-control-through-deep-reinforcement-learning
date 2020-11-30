@@ -49,7 +49,6 @@ class ReplayBuffer:
         s, a, r, ns = [], [], [], []
         for idx in indices:
             _s, _a, _r, _ns = self._data[idx]
-            traj = self._data[idx]
             s.append(_s)
             a.append(_a)
             r.append(_r)

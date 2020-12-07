@@ -6,7 +6,7 @@ import numpy as onp
 
 
 class AtariEnv(DMEnvFromGym):
-    def __init__(self, env_name, action_repeat):
+    def __init__(self, env_name: str, action_repeat: int):
         # public:
         self.action_repeat = action_repeat
 
@@ -15,25 +15,12 @@ class AtariEnv(DMEnvFromGym):
         self._base.__init__(gym.make(env_name))
         self._state_history = deque(maxlen=action_repeat)
 
-    # def reset(self):
-    #     timestep = self._base.reset()
-    #     self._state_history.clear()
-    #     for i in range(self.action_repeat - 1):
-    #         self._state_history.append(onp.zeros_like(timestep.observation))
-    #     self._state_history.append(timestep.observation)
-    #     return timestep._replace(observation=onp.stack(self._state_history))
-
-    def step(self, action):
+    def step(self, action: int) -> dm_env.TimeStep:
         # the agent selects an action only every k frames
         for _ in range(self.action_repeat):
-            timestep = self._base.step(action)
+            timestep = self._base.step(action)  # type: dm_env.TimeStep
             self._state_history.append(timestep.observation)
-        return dm_env.TimeStep(
-            timestep.step_type,
-            timestep.reward,
-            timestep.discount,
-            onp.stack(self._state_history),
-        )
+        return timestep._replace(observation=onp.stack(self._state_history))
 
 
 ATARI_ENV_LIST = list(

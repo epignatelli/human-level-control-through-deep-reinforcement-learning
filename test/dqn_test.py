@@ -1,6 +1,5 @@
 import gym
 import dm_env
-import bsuite
 from bsuite.utils.gym_wrapper import DMEnvFromGym
 
 import jax

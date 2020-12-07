@@ -131,7 +131,7 @@ class DQN(base.Agent):
         self.n_actions = n_actions
         self.hparams = hparams
         self.epsilon = hparams.initial_exploration
-        self.replay_buffer = ReplayBuffer(in_shape, hparams.replay_memory_size)
+        self.replay_buffer = ReplayBuffer(hparams.replay_memory_size)
         self.online_network = network(n_actions)
         self.target_network = network(n_actions)
         self.rng = jax.random.PRNGKey(seed)

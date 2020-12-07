@@ -45,4 +45,4 @@ class ReplayBuffer:
         else:
             indices = onp.random.randint(0, high, size=n)
 
-        return tuple(zip(*(map(lambda idx: self._data[idx], indices))))        return tuple(zip(*(map(lambda idx: self._data[idx], indices))))
+        return tuple(zip(*(map(lambda idx: self._data[idx], indices))))

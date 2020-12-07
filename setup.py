@@ -10,5 +10,13 @@ setup(
     author_email="edu.pignatelli@gmail.com",
     url="https://github.com/epignateli/human-level-control-through-deep-reinforcement-learning",
     packages=["dqn"],
-    install_requires=["gym", "gym[atari]", "bsuite", "jaxlib", "jax", "wandb"],
+    install_requires=[
+        "pytest",
+        "gym",
+        "gym[atari]",
+        "bsuite",
+        "jaxlib",
+        "jax",
+        "wandb",
+    ],
 )

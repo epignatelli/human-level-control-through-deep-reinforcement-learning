@@ -1,4 +1,4 @@
-![Build](https://github.com/epignatelli/human-level-control-through-deep-reinforcement-learning/.github/workflows/python-package-conda/badge.svg)
+![Build](https://github.com/epignatelli/human-level-control-through-deep-reinforcement-learning/.github/workflows/build/badge.svg)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 # Human-level-control-through-deep-reinforcement-learning

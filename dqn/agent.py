@@ -166,7 +166,7 @@ class DQN(base.Agent):
     def anneal_epsilon(self):
         x0, y0 = (self.hparams.replay_start, self.hparams.initial_exploration)
         x1, y1 = (
-            self.hparams.replay_start + self.hparams.final_exploration_frame,
+            self.hparams.final_exploration_frame,
             self.hparams.final_exploration,
         )
         x = self.iteration

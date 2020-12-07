@@ -17,9 +17,8 @@ jobs:
     - name: Install dependencies
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
-        $CONDA/bin/conda env update --file environment.yaml --name dqn
-        $CONDA/bin/conda activate dqn
-        $CONDA/envs/dqn/bin/pip install -e .
+        $CONDA/bin/conda install python=3.7
+        $CONDA/bin/pip install -e .
     - name: Test with pytest
       run: |
         $CONDA/bin/pytest test/

@@ -1,32 +1,24 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
 name: build
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push]
 
 jobs:
-  build:
-
+  build-linux:
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+      max-parallel: 5
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.7
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -e .
-    - name: Test
+        # $CONDA is an environment variable pointing to the root of the miniconda directory
+        $CONDA/bin/conda install python=3.7
+        $CONDA/bin/pip install -e .
+    - name: Test with pytest
       run: |
-        python pytest test/
+        $CONDA/bin/pytest test/

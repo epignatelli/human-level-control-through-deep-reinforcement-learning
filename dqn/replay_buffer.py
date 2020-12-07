@@ -1,9 +1,7 @@
 from typing import NamedTuple, Union
 from collections import deque
-import functools
 import logging
 import numpy as onp
-import jax
 
 
 class Transition(NamedTuple):
@@ -14,7 +12,7 @@ class Transition(NamedTuple):
 
 
 class ReplayBuffer:
-    def __init__(self, observation_shape, capacity, seed=0):
+    def __init__(self, capacity, seed=0):
         # public:
         self.capacity = capacity
 
@@ -46,15 +44,5 @@ class ReplayBuffer:
             indices = range(len(self))
         else:
             indices = onp.random.randint(0, high, size=n)
-        s, a, r, ns = [], [], [], []
-        for idx in indices:
-            _s, _a, _r, _ns = self._data[idx]
-            s.append(_s)
-            a.append(_a)
-            r.append(_r)
-            ns.append(_ns)
-        s = onp.stack(s)
-        a = onp.stack(a)
-        r = onp.stack(r)
-        ns = onp.stack(ns)
-        return (s, a, r, ns)
+
+        return tuple(zip(*(map(lambda idx: self._data[idx], indices))))        return tuple(zip(*(map(lambda idx: self._data[idx], indices))))

@@ -1,0 +1,12 @@
+name: dqn
+
+dependencies:
+  - python=3.7
+  - pip:
+    - pytest
+    - gym
+    - gym[atari]
+    - bsuite
+    - jaxlib
+    - jax
+    - wandb

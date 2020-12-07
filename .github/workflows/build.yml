@@ -18,11 +18,8 @@ jobs:
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
         $CONDA/bin/conda env update --file environment.yaml --name dqn
-        $CONDA/bin/conda init --help
-        $CONDA/bin/conda init
         $CONDA/bin/conda activate dqn
-        source activate dqn
-        pip install -e .
+        $CONDA/envs/dqn/bin/pip install -e .
     - name: Test with pytest
       run: |
         $CONDA/bin/pytest test/
